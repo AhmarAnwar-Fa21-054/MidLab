@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "MidLab",
+    "slug": "MidLab",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
