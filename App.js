@@ -1,21 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
-export default function App() {
+import {NavigationContainer} from '@react-navigation/native'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import CalenderScreen from './Screens/CalendarScreen';
+import NamazHistoryScreen from './Screens/NamazHistoryScreen';
+import PrayerInfo from './context/PrayerInfo';
+import Tabs from './Screens/Tabs';
+const Stack = createNativeStackNavigator()
+ function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    
+   <NavigationContainer>
+    <PrayerInfo>
+    <Stack.Navigator screenOptions={{headerTintColor:"#005390", headerTitleAlign:"center",headerTitleStyle:{fontSize:40,fontWeight:"700"}}}>
+      <Stack.Screen name='CalenderScreen' component={CalenderScreen} options={{headerTintColor:"#005390", headerTitleAlign:"center",headerTitleStyle:{fontSize:40,fontWeight:"700"},title:"صلاح ٹریکر"}}></Stack.Screen>
+      <Stack.Screen name='Tabs' component={Tabs} options={{title:"صلاح ٹریک",headerShown:false}}></Stack.Screen>
+    </Stack.Navigator>
+    </PrayerInfo>
+   </NavigationContainer>
+   
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
