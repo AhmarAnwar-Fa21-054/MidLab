@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Button } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Button, Pressable } from 'react-native'
 import MultiplePersons from "../svgs/MultiplePersons";
 import SinglePerson from "../svgs/SinglePerson";
 import CheckBox from "react-native-check-box";
 import prayerContext from "../context/PrayerContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function NamazHistoryScreen({ route }) {
     let Prayers = useContext(prayerContext)
 
@@ -18,11 +19,14 @@ function NamazCards({ fiveNamaz, setFiveNamaz, route, Prayers }) {
 
     useEffect(() => {
         Prayers.setPrayerHistory({ ...Prayers.prayerHistory, [route.params.dateKey]: fiveNamaz })
-
+        setData()
     }, [fiveNamaz])
+    async function setData() {
+        await AsyncStorage.setItem(route.params.dateKey, JSON.stringify(fiveNamaz))
+    }
     // useEffect(()=>{
-    //     console.warn(Prayers.prayerHistory);
-    // },[Prayers.prayerHistory])
+    //     console.log(Prayers.prayerHistory);
+    // },[])
     const singleCheckHandle = (Item) => { Item.singleIsChecked ? setFiveNamaz(fiveNamaz.map(item => item.key === Item.key ? { ...item, singleIsChecked: false } : item)) : setFiveNamaz(fiveNamaz.map(item => item.key === Item.key ? { ...item, singleIsChecked: true, groupIsChecked: false } : item)) }
     const groupCheckHandle = (Item) => { Item.groupIsChecked ? setFiveNamaz(fiveNamaz.map(item => item.key === Item.key ? { ...item, groupIsChecked: false } : item)) : setFiveNamaz(fiveNamaz.map(item => item.key === Item.key ? { ...item, singleIsChecked: false, groupIsChecked: true } : item)) }
 
@@ -36,21 +40,22 @@ function NamazCards({ fiveNamaz, setFiveNamaz, route, Prayers }) {
                             <View style={{ height: 50, width: 90, justifyContent: "center", alignItems: "center" }}><Text style={{ fontSize: 40, fontWeight: "800" }}>{item.name}</Text></View>
 
                             <CheckBox isChecked={item.singleIsChecked} checkedCheckBoxColor="#005390" onClick={() => {
-
                                 singleCheckHandle(item)
-
-
-
                             }}
-
                             />
-
-                            <SinglePerson width={50} height={80} marginLeft={-20} />
+                            <Pressable onPress={() => {
+                                singleCheckHandle(item)
+                            }}>
+                                <SinglePerson width={50} height={80} marginLeft={-20} />
+                            </Pressable>
                             <CheckBox isChecked={item.groupIsChecked} checkedCheckBoxColor="#005390" onClick={() => {
                                 groupCheckHandle(item)
                             }} />
-
-                            <MultiplePersons width={50} height={50} marginLeft={-10} />
+                            <Pressable onPress={() => {
+                                groupCheckHandle(item)
+                            }}>
+                                <MultiplePersons width={50} height={50} marginLeft={-10} />
+                            </Pressable>
 
                         </View>
                     )
