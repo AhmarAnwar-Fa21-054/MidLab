@@ -18,7 +18,7 @@ function MonthlyChartScreen() {
         let asrCount = 0
         let maghribCount = 0
         let ishaCount = 0
-        let thirtyDaysBackDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString("en-ca")
+        let thirtyDaysBackDate = new Date(Date.now() - 29 * 24 * 60 * 60 * 1000).toLocaleDateString("en-ca")
         let currentDate = new Date().toLocaleDateString("en-ca")
         anArray.slice(0, 30).forEach((element) => {
             if (thirtyDaysBackDate <= element[0] && element[0] <= currentDate) {
